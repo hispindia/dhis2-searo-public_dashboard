@@ -1,0 +1,761 @@
+<!DOCTYPE HTML>
+<html class="loginPage">
+<head>
+	<meta name="description" content="DHIS 2">
+	<meta name="keywords" content="DHIS 2">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!--<script type="text/javascript" src="../javascripts/jQuery/jquery.min.js"></script>-->
+	<script type="text/javascript" src="login.js"></script>
+	<link type="text/css" rel="stylesheet" href="../css/widgets.css">
+	<link type="text/css" rel="stylesheet" href="../css/login.css">
+	<link type="text/css" rel="stylesheet" href="../../api/files/style/external" />
+	<script src="//dhis2-cdn.org/v221/ext/ext-all.js"></script>
+
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
+
+	<!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+	<!--Bootstrap Select Library-->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+	<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+
+	<!--W3schools-->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body class="loginPage">
+<div class="page-header">
+	<div>
+		<img src="./img/logo.png">
+		<img src="./img/map.png" height="100px" align="right">
+		<p align="right" id="p1"> Health Information Platform(HIP)</p>
+	</div>
+</div>
+<ul class="w3-navbar">
+	<li><a href="#">Home</a></li>
+	<li><a href="#">Indicators & metadata</a></li>
+	<li><a href="#">Generate Tables</a></li>
+	<li><a href="#">Generate Charts</a></li>
+	<li><a href="#">Render Maps</a></li>
+	<li><a href="#">View Dashboards</a></li>
+	<li><a href="#">Reports & Publications</a></li>
+	<li><a href="#">About HIP</a></li>
+	<li class="w3-right"><a type="button" id="b1" class="btn  btn-info btn-default" data-toggle="modal" data-target="#myModal">DHIS2 Login</a></li>
+</ul>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header" >
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
+			</div>
+			<div class="modal-body" >
+
+				<div id="loginField">
+					<div id="loginArea">
+						<div id="bannerArea">
+							<a href="http://www.dhis2.org"><img src="../../api/staticContent/logo_front" style="border:none"></a>
+						</div>
+
+						<form id="loginForm" action="../../dhis-web-commons-security/login.action" method="post">
+							<div>
+								<div id="signInLabel">Sign in</div>
+								<div><input type="text" id="j_username" name="j_username" placeholder="Username"></div>
+								<div><input type="password" id="j_password" name="j_password" autocomplete="off" placeholder="Password"></div>
+							</div>
+							<div id="submitDiv">
+								<input id="submit" class="button" type="submit" value="Sign in">
+							</div>
+							#if( $keyAccountRecovery )
+							<div style="padding-bottom: 10px">
+								<a id="forgotPasswordLink" href="recovery.action">Forgot password?</a>
+							</div>
+							#end
+							#if( $keyConfig.selfRegistrationAllowed() )
+							<div style="padding-bottom: 10px">
+								<a id="createAccountLink" href="account.action">Create an account</a>
+							</div>
+							#end
+						</form>
+						#if( $keyOpenIdProvider )
+						<form id="openIdLoginForm" action="../../dhis-web-commons-security/openid.action" method="post">
+							  <input name="openid_identifier" type="hidden" value="$keyOpenIdProvider"/>
+							<div id="submitDiv">
+								#if( $keyOpenIdProviderLabel )
+								<input style="width: 269px;" id="submit" class="button" type="submit" value="$keyOpenIdProviderLabel">
+								#else
+								<input style="width: 269px;" id="submit" class="button" type="submit" value="Sign in with OpenID">
+								#end
+							</div>
+						</form>
+						#end
+						#if( $failed == true )
+						<div id="loginMessage">Wrong username or password</div>
+						#end
+						#if ( $keyApplicationNotification )
+						<div id="notificationArea">$!{keyApplicationNotification}</div>
+						#end
+						<!--[if lte IE 8]>
+						<div id="notificationArea" style="color: white; background-color: red;">$i18n.getString( "unsupported_browser" )</div>
+						<![endif]-->
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+<div class="container">
+	<h1 align="center"><strong>Welcome</strong> to the</h1>
+	<p><h3 id="h3" align="center">Health Information Platform(HIP) for the WHO South-East Asia Region.</h3></p>
+	<div class="row">
+		<div class="col-sm-12" style="background-color:white;" align="center">HIP allows users to access an integrated database of the indicators, use interactive analytics tools to generate tables and charts, view maps and monitoring dashboards, and generate visualizations that contain health information from WHO global health estimates and nationally reported values accross the 11 member states of the WHO South-East Asia Region.The HIP is poweres by the District Health Information Software v.2(DHIS2),which is used by 9 out of 11 countries. </div>
+	</div>
+
+	<div>
+		<p id="p1" align="center">Click On the HIP toolboxes below to explore health indicators in the 11 Countries in South-East Asia Region.</p>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-3">
+
+			<div class="w3-card-4" style="width:100%" onclick="w3_open();w3_close1();w3_close2()">
+				<header class="w3-container w3-light-grey">
+					<h3>Generate Tables</h3>
+				</header>
+				<div class="w3-container">
+					<img src="./img/table.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+					<p>Create Data tables on single or Multiple indicators,countries and years.</p><br>
+				</div>
+
+
+
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="w3-card-4" style="width:100%" onclick="w3_open2();w3_close();w3_close1()">
+				<header class="w3-container w3-light-grey">
+					<h3>Generate Charts</h3>
+				</header>
+				<div class="w3-container">
+					<img src="./img/chart.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+					<p>Visualize data in line graph,scatter plots, bar, pie and diamond charts.</p><br>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="w3-card-4" style="width:100%" onclick="w3_open1();w3_close();w3_close2()">
+				<header class="w3-container w3-light-grey" >
+					<h3>Render Maps</h3>
+				</header>
+				<div class="w3-container">
+					<img src="./img/maps.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+					<p>Plot available indicators on the map for specific period  to compare data across the region.</p><br>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="w3-card-4" style="width:100%" onclick="_blank">
+				<header class="w3-container w3-light-grey">
+					<h3>View Dashboard</h3>
+				</header>
+				<div class="w3-container">
+					<img src="./img/dashboard.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+					<p class="w3-small">Visulize data and indicators by health themes, including the health SDGs and Universal Health Coverage(UHC)</p><br>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var peid,orgid,cpeid,mpeid,corgid,morgid;
+	var base = "http://hospdev.hispindia.org/dhis_searotest/";
+	var orgname;
+	var deids=[],denames=[];
+	var arr;
+	var degroupid,degroupname="",dename,deid;
+
+	var mpeid,morgid;
+
+	var morgname;
+	var mdeids=[],mdenames=[];
+	var marr;
+	var mdegroupid,cdegroupid,mdegroupname,mdename,mdeid;var mpeid,morgid;
+
+	var corgname;
+	var cdeids=[],cdenames=[];
+	var carr;
+	var cdegroupid,cdegroupname,cdename,cdeid;
+	// Login - if OK, call the setLinks function
+
+	Ext.onReady( function() {
+
+		//document.getElementById("drop1").multiple = false;
+		Ext.Ajax.request({
+			url: base + "dhis-web-commons-security/login.action",
+			method: "POST",
+			params: {j_username: "admin", j_password: "district"},
+
+		});
+
+
+		$.post('http://hospdev.hispindia.org/dhis_searotest/dhis-web-commons-security/login.action', {
+			'j_username': 'admin',
+			'j_password': 'district'
+		}, function (data, status, xhr) {
+			console.log(data);
+			console.log(status);
+			console.log(xhr);
+			$.getJSON("http://hospdev.hispindia.org/dhis_searotest/api/dataElementGroups.json?fields=id,name,dataElementGroups[id,name]", function (data) {
+
+				$.each(data.dataElementGroups, function (index, item) {
+					$('#drop3').append(
+							$('<option></option>').val(item.id).html(item).text(item.name)
+					);
+				});	$.each(data.dataElementGroups, function (index, item) {
+					$('#dropm3').append(
+							$('<option></option>').val(item.id).html(item).text(item.name)
+					);
+				});	$.each(data.dataElementGroups, function (index, item) {
+					$('#dropc3').append(
+							$('<option></option>').val(item.id).html(item).text(item.name)
+					);
+				});
+			});
+			$('.selectpicker').selectpicker('refresh');
+			$.getJSON("http://hospdev.hispindia.org/dhis_searotest/api/organisationUnitGroups.json?fields=id,name&level=3", function (data) {
+				$.each(data.organisationUnitGroups, function (index, item) {
+					$('#drop1').append(
+							$('<option></option>').val(item.id).html(item.name).text(item.name)
+					);$('#dropm1').append(
+							$('<option></option>').val(item.id).html(item.name).text(item.name)
+					);$('#dropc1').append(
+							$('<option></option>').val(item.id).html(item.name).text(item.name)
+					);
+				});
+				$('.selectpicker').selectpicker('refresh');
+
+				//$('.selectpicker').selectpicker('selectAll');
+
+			});
+
+
+			$("#drop5").change(function () {
+				var selected = $("#drop5 option:selected");
+
+
+				peid = "";
+				selected.each(function () {
+					peid += ";" + $(this).val();
+				});
+			});
+			$("#dropm5").change(function () {
+				var selected = $("#dropm5 option:selected");
+
+
+				mpeid = "";
+				selected.each(function () {
+					mpeid += ";" + $(this).val();
+				});
+			});$("#dropc5").change(function () {
+
+				var selected = $("#dropc5 option:selected");
+
+
+				cpeid = "";
+				selected.each(function () {
+					cpeid += ";" + $(this).val();
+				});
+
+			});
+
+			$("#drop3").change(function () {
+
+
+				degroupid = "";
+
+				degroupname += ","+$(this).find("option:selected").text();
+
+				degroupid = $(this).find("option:selected").val();
+
+
+				$.getJSON("http://hospdev.hispindia.org/dhis_searotest/api/dataElementGroups/" + degroupid + ".json?fields=dataElements[id,name]", function (data) {
+					$.each(data.dataElements, function (index, item) {
+						// deids.push(item.id);
+						//denames.push(item.name);
+
+						$('#drop4').append(
+								$('<option></option>').val(item.id).html(item).text(item.name)
+						);
+
+					});
+					$('.selectpicker').selectpicker('refresh');
+				});
+
+			});
+			$("#dropm3").change(function () {
+
+
+				mdegroupid = "";
+				mdegroupname = $(this).find("option:selected").text();
+
+				mdegroupid = $(this).find("option:selected").val();
+
+
+				$.getJSON("http://hospdev.hispindia.org/dhis_searotest/api/dataElementGroups/" + mdegroupid + ".json?fields=dataElements[id,name]", function (data) {
+					$.each(data.dataElements, function (index, item) {
+						// deids.push(item.id);
+						//denames.push(item.name);
+
+						$('#dropm4').append(
+								$('<option></option>').val(item.id).html(item).text(item.name)
+						);
+
+					});
+					$('.selectpicker').selectpicker('refresh');
+				});
+
+			});$("#dropc3").change(function () {
+
+
+				cdegroupid = "";
+				cdegroupname = $(this).find("option:selected").text();
+
+				cdegroupid = $(this).find("option:selected").val();
+
+
+				$.getJSON("http://hospdev.hispindia.org/dhis_searotest/api/dataElementGroups/" + cdegroupid + ".json?fields=dataElements[id,name]", function (data) {
+					$.each(data.dataElements, function (index, item) {
+						// deids.push(item.id);
+						//denames.push(item.name);
+
+						$('#dropc4').append(
+								$('<option></option>').val(item.id).html(item).text(item.name)
+						);
+
+					});
+					$('.selectpicker').selectpicker('refresh');
+				});
+
+			});
+			$("#drop4").change(function () {
+				var selected = $("#drop4 option:selected");
+				dename = "";
+				deid = "";
+				selected.each(function () {
+					deid += ";" + $(this).val();
+					dename += ";" + $(this).text();
+
+				});
+				arr = [];
+				arr.push({"id": deid, "name": dename});
+				//getFilteredOrgUnitList();
+				console.log("Data Elements" + arr);
+			});
+			$("#dropm4").change(function () {
+				var selected = $("#dropm4 option:selected");
+				mdename = "";
+				mdeid = "";
+				selected.each(function () {
+					mdeid += ";" + $(this).val();
+					mdename += ";" + $(this).text();
+
+				});
+				marr = [];
+				marr.push({"id": mdeid, "name": mdename});
+				//getFilteredOrgUnitList();
+
+			});$("#dropc4").change(function () {
+				var selected = $("#dropc4 option:selected");
+				cdename = "";
+				cdeid = "";
+				selected.each(function () {
+					cdeid += ";" + $(this).val();
+					cdename += ";" + $(this).text();
+
+				});
+				carr = [];
+				carr.push({"id": cdeid, "name": cdename});
+				//getFilteredOrgUnitList();
+
+			});
+
+			$("#drop1").change(function () {
+
+				document.getElementById("drop2").innerHTML = "";
+				var orglevel = $(this).find("option:selected").val();
+				$.getJSON("http://hospdev.hispindia.org/dhis_searotest/api/organisationUnitGroups/" + orglevel + ".json", function (data) {
+					$.each(data.organisationUnits, function (index, item) {
+						$('#drop2').append(
+								$('<option></option>').val(item.id).html(item.name).text(item.name)
+						);
+					});
+					$('.selectpicker').selectpicker('refresh');
+
+					//$('.selectpicker').selectpicker('selectAll');
+
+				});
+			});	$("#dropm1").change(function () {
+
+				document.getElementById("dropm2").innerHTML = "";
+				var morglevel = $(this).find("option:selected").val();
+				$.getJSON("http://hospdev.hispindia.org/dhis_searotest/api/organisationUnitGroups/" + morglevel + ".json", function (data) {
+					$.each(data.organisationUnits, function (index, item) {
+						$('#dropm2').append(
+								$('<option></option>').val(item.id).html(item.name).text(item.name)
+						);
+					});
+					$('.selectpicker').selectpicker('refresh');
+
+					//$('.selectpicker').selectpicker('selectAll');
+
+				});
+			});
+			$("#dropc1").change(function () {
+
+				document.getElementById("dropc2").innerHTML = "";
+				var corglevel = $(this).find("option:selected").val();
+				$.getJSON("http://hospdev.hispindia.org/dhis_searotest/api/organisationUnitGroups/" + corglevel + ".json", function (data) {
+					$.each(data.organisationUnits, function (index, item) {
+						$('#dropc2').append(
+								$('<option></option>').val(item.id).html(item.name).text(item.name)
+						);
+					});
+					$('.selectpicker').selectpicker('refresh');
+
+					//$('.selectpicker').selectpicker('selectAll');
+
+				});
+			});
+			$("#drop2").change(function () {
+
+				var selected = $("#drop2 option:selected");
+				orgname="";
+				orgid = "";
+				selected.each(function () {
+					orgname=$(this).val();
+					orgid += ";" + $(this).val();
+
+				});
+
+				orgname = $(this).find("option:selected").text();
+
+				// orgid += $(this).find("option:selected").val()+";";
+				console.log("org id"+orgid);
+
+			});
+			$("#dropm2").change(function () {
+
+				var selected = $("#dropm2 option:selected");
+				morgname="";
+				morgid = "";
+				selected.each(function () {
+					morgname=$(this).val();
+					morgid += ";" + $(this).val();
+
+				});
+
+				morgname = $(this).find("option:selected").text();
+
+				// orgid += $(this).find("option:selected").val()+";";
+
+
+			});
+			$("#dropc2").change(function () {
+
+				var selected = $("#dropc2 option:selected");
+				corgname="";
+				corgid = "";
+				selected.each(function () {
+					corgname=$(this).val();
+					corgid += ";" + $(this).val();
+
+				});
+
+				corgname = $(this).find("option:selected").text();
+
+				// orgid += $(this).find("option:selected").val()+";";
+
+
+			});
+
+		});	});
+	function validateDashboard() {
+		var isValidated = "true";
+
+		//orgUnit Related
+		var orgUnitList = document.getElementById('dropc1');
+		var tempOrgUnitUid = orgUnitList.options[orgUnitList.selectedIndex].value;
+		//alert( tempOrgUnitUid );
+
+		// indicator related
+		var tempIndicatorList = document.getElementById('dropc2');
+		var tempIndicatorUid = tempIndicatorList.options[tempIndicatorList.selectedIndex].value;
+		//alert( tempIndicatorUid );
+
+		// month related
+		var tempMonthList = document.getElementById('dropc3');
+		var tempMonthUid = tempMonthList.options[tempMonthList.selectedIndex].value;
+		//alert( tempMonthUid );
+
+		// year related
+		var tempYearList = document.getElementById('dropc4');
+		var tempYearUid = tempYearList.options[tempYearList.selectedIndex].value;
+		//alert( tempYearUid );
+
+
+		if (tempOrgUnitUid == "base" || tempOrgUnitUid == undefined) {
+			alert("Please select all Fields");
+			isValidated = "false";
+			return;
+		}
+
+		else if (tempIndicatorUid == "base" || tempIndicatorUid == undefined) {
+			alert("Please select all Fields");
+			isValidated = "false";
+			return;
+		}
+
+		else if (tempMonthUid == "Select Month" || tempMonthUid == undefined) {
+			alert("Please select all Fields");
+			isValidated = "false";
+			return;
+		}
+
+		else if (tempYearUid == "Select Year" || tempYearUid == undefined) {
+			alert("Please select all Fields");
+			isValidated = "false";
+			return;
+		}
+
+		else ( isValidated === "true")
+		{
+			myFunction();
+		}
+
+	}
+
+
+</script>
+
+<!--Drop down Nav bar-->
+<div class="container">
+	<nav class="w3-dropnav w3-card-2" style="display:none" id="myDropnav">
+		<div class="w3-container">
+			<span onclick="w3_close()" class="w3-closebtn w3-xlarge" title="Close Menu">&times;</span>
+		</div>
+		<div class="w3-row-padding w3-padding-bottom">
+			<div class="w3-quarter">
+				<label for="Orgunit">Select Level</label>
+				<select id="drop1" class="selectpicker " >
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Organisation unit</label>
+				<select id="drop2"class="selectpicker " multiple>
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator Group</label>
+				<select id="drop3" class="selectpicker " >
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator</label>
+				<select id="drop4" class="selectpicker " multiple>
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Period</label>
+				<select id="drop5"class="selectpicker " multiple>
+					<option value="2016">2016</option>
+					<option value="2015">2015</option>
+					<option value="2014">2014</option>
+					<option value="2013">2013</option>
+					<option value="2012">2012</option>
+					<option value="2011">2011</option>
+					<option value="2010">2010</option>
+				</select>
+			</div>
+
+			<br>
+		</div>
+		<div class="w3-row">
+			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g1" onclick="window.open('newtab.html?arr='+encodeURIComponent(JSON.stringify(arr))+'&peid='+peid+'&orgid='+orgid+'&orgname='+orgname)">Generate Tables</button></p></div>
+		</div>
+	</nav>
+</div>
+<div class="container">
+	<nav class="w3-dropnav w3-card-2" style="display:none" id="myDropnav1">
+		<div class="w3-container">
+			<span onclick="w3_close1()" class="w3-closebtn w3-xlarge" title="Close Menu">&times;</span>
+		</div>
+		<div class="w3-row-padding w3-padding-bottom">
+			<div class="w3-quarter">
+				<label for="Orgunit">Select Level</label>
+				<select id="dropm1" class="selectpicker " >
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Organisation unit</label>
+				<select id="dropm2"class="selectpicker " >
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator Group</label>
+				<select id="dropm3" class="selectpicker " >
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator</label>
+				<select id="dropm4" class="selectpicker " >
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Period</label>
+				<select id="dropm5"class="selectpicker " >
+					<option value="2016">2016</option>
+					<option value="2015">2015</option>
+					<option value="2014">2014</option>
+					<option value="2013">2013</option>
+					<option value="2012">2012</option>
+					<option value="2011">2011</option>
+					<option value="2010">2010</option>
+				</select>
+			</div>
+
+			<br>
+		</div>
+		<div class="w3-row">
+			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g1" onclick="window.open('map1.html?deid='+deid+'&peid='+peid+'&orgid='+orgid+'&orgname='+orgname)">Generate Maps</button></p></div>
+		</div>
+	</nav>
+</div>
+<div class="container">
+	<nav class="w3-dropnav w3-card-2" style="display:none" id="myDropnav2">
+		<div class="w3-container">
+			<span onclick="w3_close2()" class="w3-closebtn w3-xlarge" title="Close Menu">&times;</span>
+		</div>
+		<div class="w3-row-padding w3-padding-bottom">
+			<div class="w3-quarter">
+				<label for="Orgunit">Select Level</label>
+				<select id="dropc1" class="selectpicker " >
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Organisation unit</label>
+				<select id="dropc2"class="selectpicker " multiple>
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator Group</label>
+				<select id="dropc3" class="selectpicker " >
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator</label>
+				<select id="dropc4" class="selectpicker " multiple>
+
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Period</label>
+				<select id="dropc5"class="selectpicker " multiple >
+					<option value="2016">2016</option>
+					<option value="2015">2015</option>
+					<option value="2014">2014</option>
+					<option value="2013">2013</option>
+					<option value="2012">2012</option>
+					<option value="2011">2011</option>
+					<option value="2010">2010</option>
+				</select>
+			</div>
+
+			<br>
+		</div>
+		<div class="w3-row">
+			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g2"  onclick="window.open('highcharttab.html?cdegroupid='+cdegroupid+'&cpeid='+cpeid+'&cdegroupname='+cdegroupname+'&cdeid='+cdeid+'&corgid='+corgid+'&corgname='+corgname)">Generate Charts</button></p></div>
+		</div>
+	</nav>
+</div>
+<!-- Footer -->
+<div id="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-3"><img src="./img/logo2.png" width="200px"></div>
+			<div class="col-sm-3"><ul id="ul1" style="list-style-type:none"><li>Global Health Observatory</li><li><a>Contact us</a></li></ul></div>
+			<div class="col-sm-3">
+				<ul id="ul2" style="list-style-type:none">
+					<li><Strong>WHO Regional Health Information Links</strong></li>
+					<li>Africa</li>
+					<li>Americas</li>
+					<li>Eastren Maditerranean</li>
+					<li>Europe</li>
+					<li>Westren Pacific Region</li>
+					<ul>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script>
+	function w3_open() {
+		document.getElementById("myDropnav").style.display = "block";
+
+
+	}
+	function w3_open1() {
+		document.getElementById("myDropnav1").style.display = "block";
+	}
+	function w3_open2() {
+		document.getElementById("myDropnav2").style.display = "block";
+	}
+
+	function w3_close() {
+		document.getElementById("myDropnav").style.display = "none";
+	}function w3_close1() {
+		document.getElementById("myDropnav1").style.display = "none";
+	}function w3_close2() {
+		document.getElementById("myDropnav2").style.display = "none";
+	}
+</script>
+</body>
+</html>
