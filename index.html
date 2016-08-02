@@ -81,7 +81,7 @@
 						<form id="loginForm" action="../../dhis-web-commons-security/login.action" method="post">
 							<div>
 								<div id="signInLabel">Sign in</div>
-								<div><input type="text" id="j_username" name="j_username" placeholder="Username"></div>
+								<div><input type="text" autofocus="autofocus" id="j_username" name="j_username" placeholder="Username"></div>
 								<div><input type="password" id="j_password" name="j_password" autocomplete="off" placeholder="Password"></div>
 							</div>
 							<div id="submitDiv">
@@ -203,7 +203,7 @@
 	var degroupid,degroupname="",dename,deid;
 
 	var mpeid,morgid;
-
+	var countries = [];
 	var morgname;
 	var mdeids=[],mdenames=[];
 	var marr;
@@ -305,6 +305,23 @@
 
 				degroupid = $(this).find("option:selected").val();
 
+				var element = document.getElementById("drop4");
+				for (var i = element.length-1; i >= 0; i--) {
+					element[i].remove()
+				}
+
+				$.each($("#drop4 option:selected"), function(){
+					var country = {};
+					country.id = $(this).val();
+					country.name = $(this).text();
+					countries.push(country);
+					//countries.push(document.getElementById("drop4").selectedIndex);
+
+					$('#drop4').append(
+							$('<option></option>').val($(this).val()).html($(this).text()).text($(this).text());
+					);
+
+				});
 
 				$.getJSON("http://hospdev.hispindia.org/dhis_searotest/api/dataElementGroups/" + degroupid + ".json?fields=dataElements[id,name]", function (data) {
 					$.each(data.dataElements, function (index, item) {
@@ -507,61 +524,232 @@
 			});
 
 		});	});
-	function validateDashboard() {
+
+
+//
+//	function removeUnselectedOptions() {
+//
+//		$.each($("#drop4 option:selected"), function(){
+//			countries.push($(this).val());
+//			//countries.push(document.getElementById("drop4").selectedIndex);
+//
+//		});
+//		alert(countries);
+//		var element = document.getElementById("drop4");
+//		element[i].remove()
+//		var selected = element.val;
+//		console.log(selected)
+//		for (var i = element.length-1; i >= 0; i--) {
+//
+//			for (var j = 0; j < countries.length; j++) {
+//				if (i != countries[j])
+//					element[i].remove()
+//
+//			}
+//
+//			//console.log(countries);
+//
+//		}
+//	}
+
+
+	function validatetable() {
 		var isValidated = "true";
 
 		//orgUnit Related
-		var orgUnitList = document.getElementById('dropc1');
-		var tempOrgUnitUid = orgUnitList.options[orgUnitList.selectedIndex].value;
+		var level = document.getElementById('drop1');
+		var levelid = level.options[level.selectedIndex].value;
 		//alert( tempOrgUnitUid );
 
 		// indicator related
-		var tempIndicatorList = document.getElementById('dropc2');
-		var tempIndicatorUid = tempIndicatorList.options[tempIndicatorList.selectedIndex].value;
+		var orgf = document.getElementById('drop2');
+		var orgfid = orgf.options[orgf.selectedIndex].value;
 		//alert( tempIndicatorUid );
 
 		// month related
-		var tempMonthList = document.getElementById('dropc3');
-		var tempMonthUid = tempMonthList.options[tempMonthList.selectedIndex].value;
+		var period = document.getElementById('drop3');
+		var periodid = period.options[period.selectedIndex].value;
 		//alert( tempMonthUid );
 
 		// year related
-		var tempYearList = document.getElementById('dropc4');
-		var tempYearUid = tempYearList.options[tempYearList.selectedIndex].value;
+		var indigroup = document.getElementById('drop4');
+		var indigid = indigroup.options[indigroup.selectedIndex].value;
+		//alert( tempYearUid );
+
+		// year related
+		var indi = document.getElementById('drop5');
+		var indiid = indi.options[indi.selectedIndex].value;
 		//alert( tempYearUid );
 
 
-		if (tempOrgUnitUid == "base" || tempOrgUnitUid == undefined) {
-			alert("Please select all Fields");
+		if (levelid == "base" || levelid == undefined || levelid =="") {
+			alert("Please select Level");
 			isValidated = "false";
 			return;
 		}
 
-		else if (tempIndicatorUid == "base" || tempIndicatorUid == undefined) {
-			alert("Please select all Fields");
+		else if (orgfid == "" || orgfid == undefined) {
+			alert("Please select Organisation unit");
 			isValidated = "false";
 			return;
 		}
 
-		else if (tempMonthUid == "Select Month" || tempMonthUid == undefined) {
-			alert("Please select all Fields");
+		else if (periodid="" || periodid == "Please Select" || periodid == undefined) {
+			alert("Please select Period");
 			isValidated = "false";
 			return;
 		}
 
-		else if (tempYearUid == "Select Year" || tempYearUid == undefined) {
-			alert("Please select all Fields");
+		else if (indigid="" || indigid == "Please Select" || indigid == undefined) {
+			alert("Please select Indicator Group");
+			isValidated = "false";
+			return;
+		}
+		else if (indi=""|| indi == "Select Year" || indi == undefined) {
+			alert("Please select Indicator");
 			isValidated = "false";
 			return;
 		}
 
 		else ( isValidated === "true")
 		{
-			myFunction();
+			window.open('newtab.html?arr='+encodeURIComponent(JSON.stringify(arr))+'&peid='+peid+'&orgid='+orgid+'&orgname='+orgname);
+
 		}
 
 	}
 
+	function validatechart() {
+		var isValidated = "true";
+
+		//orgUnit Related
+		var level = document.getElementById('dropc1');
+		var levelid = level.options[level.selectedIndex].value;
+		//alert( tempOrgUnitUid );
+
+		// indicator related
+		var orgf = document.getElementById('dropc2');
+		var orgfid = orgf.options[orgf.selectedIndex].value;
+		//alert( tempIndicatorUid );
+
+		// month related
+		var period = document.getElementById('dropc3');
+		var periodid = period.options[period.selectedIndex].value;
+		//alert( tempMonthUid );
+
+		// year related
+		var indigroup = document.getElementById('dropc4');
+		var indigid = indigroup.options[indigroup.selectedIndex].value;
+		//alert( tempYearUid );
+
+		// year related
+		var indi = document.getElementById('dropc5');
+		var indiid = indi.options[indi.selectedIndex].value;
+		//alert( tempYearUid );
+
+
+		if (levelid == "base" || levelid == undefined || levelid =="") {
+			alert("Please select Level");
+			isValidated = "false";
+			return;
+		}
+
+		else if (orgfid == "" || orgfid == undefined) {
+			alert("Please select Organisation unit");
+			isValidated = "false";
+			return;
+		}
+
+		else if (periodid="" || periodid == "Please Select" || periodid == undefined) {
+			alert("Please select Period");
+			isValidated = "false";
+			return;
+		}
+
+		else if (indigid="" || indigid == "Please Select" || indigid == undefined) {
+			alert("Please select Indicator Group");
+			isValidated = "false";
+			return;
+		}
+		else if (indi=""|| indi == "Select Year" || indi == undefined) {
+			alert("Please select Indicator");
+			isValidated = "false";
+			return;
+		}
+		else ( isValidated === "true")
+		{
+			window.open('highcharttab.html?cdegroupid='+cdegroupid+'&cpeid='+cpeid+'&cdegroupname='+cdegroupname+'&cdeid='+cdeid+'&corgid='+corgid+'&corgname='+corgname);
+
+		}
+
+	}
+
+	function validatemap() {
+		var isValidated = "true";
+
+
+		//orgUnit Related
+		var level = document.getElementById('dropm1');
+		var levelid = level.options[level.selectedIndex].value;
+		//alert( tempOrgUnitUid );
+
+		// indicator related
+		var orgf = document.getElementById('dropm2');
+		var orgfid = orgf.options[orgf.selectedIndex].value;
+		//alert( tempIndicatorUid );
+
+		// month related
+		var period = document.getElementById('dropm3');
+		var periodid = period.options[period.selectedIndex].value;
+		//alert( tempMonthUid );
+
+		// year related
+		var indigroup = document.getElementById('dropm4');
+		var indigid = indigroup.options[indigroup.selectedIndex].value;
+		//alert( tempYearUid );
+
+		// year related
+		var indi = document.getElementById('dropm5');
+		var indiid = indi.options[indi.selectedIndex].value;
+		//alert( tempYearUid );
+
+
+		if (levelid == "base" || levelid == undefined || levelid =="") {
+			alert("Please select Level");
+			isValidated = "false";
+			return;
+		}
+
+		else if (orgfid == "" || orgfid == undefined) {
+			alert("Please select Organisation unit");
+			isValidated = "false";
+			return;
+		}
+
+		else if (periodid="" || periodid == "Please Select" || periodid == undefined) {
+			alert("Please select Period");
+			isValidated = "false";
+			return;
+		}
+
+		else if (indigid="" || indigid == "Please Select" || indigid == undefined) {
+			alert("Please select Indicator Group");
+			isValidated = "false";
+			return;
+		}
+		else if (indi=""|| indi == "Select Year" || indi == undefined) {
+			alert("Please select Indicator");
+			isValidated = "false";
+			return;
+		}
+
+		else ( isValidated === "true")
+		{
+			window.open('map1.html?mdeid='+mdeid+'&mpeid='+mpeid+'&morgid='+morgid+'&morgname='+morgname);
+
+		}
+
+	}
 
 </script>
 
@@ -575,24 +763,12 @@
 			<div class="w3-quarter">
 				<label for="Orgunit">Select Level</label>
 				<select id="drop1" class="selectpicker " >
-
+					<option value="" disabled selected hidden>Please Select</option>
 				</select>
 			</div>
 			<div class="w3-quarter">
 				<label for="Orgunit">Organisation unit</label>
 				<select id="drop2"class="selectpicker " multiple>
-
-				</select>
-			</div>
-			<div class="w3-quarter">
-				<label for="Orgunit">Indicator Group</label>
-				<select id="drop3" class="selectpicker " >
-
-				</select>
-			</div>
-			<div class="w3-quarter">
-				<label for="Orgunit">Indicator</label>
-				<select id="drop4" class="selectpicker " multiple>
 
 				</select>
 			</div>
@@ -608,11 +784,24 @@
 					<option value="2010">2010</option>
 				</select>
 			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator Group</label>
+				<select id="drop3" class="selectpicker "  >
+					<option value="" disabled selected hidden>Please Select</option>
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator</label>
+				<select id="drop4" class="selectpicker " multiple  data-width="200px"  >
+
+				</select>
+			</div>
+
 
 			<br>
 		</div>
 		<div class="w3-row">
-			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g1" onclick="window.open('newtab.html?arr='+encodeURIComponent(JSON.stringify(arr))+'&peid='+peid+'&orgid='+orgid+'&orgname='+orgname)">Generate Tables</button></p></div>
+			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g1" onclick="validatetable();">Generate Tables</button></p></div>
 		</div>
 	</nav>
 </div>
@@ -625,30 +814,19 @@
 			<div class="w3-quarter">
 				<label for="Orgunit">Select Level</label>
 				<select id="dropm1" class="selectpicker " >
-
+					<option value="" disabled selected hidden>Please Select</option>
 				</select>
 			</div>
 			<div class="w3-quarter">
 				<label for="Orgunit">Organisation unit</label>
-				<select id="dropm2"class="selectpicker " >
-
-				</select>
-			</div>
-			<div class="w3-quarter">
-				<label for="Orgunit">Indicator Group</label>
-				<select id="dropm3" class="selectpicker " >
-
-				</select>
-			</div>
-			<div class="w3-quarter">
-				<label for="Orgunit">Indicator</label>
-				<select id="dropm4" class="selectpicker " >
-
+				<select id="dropm2"class="selectpicker " multiple>
+					<option value="" disabled selected hidden>Please Select</option>
 				</select>
 			</div>
 			<div class="w3-quarter">
 				<label for="Orgunit">Period</label>
 				<select id="dropm5"class="selectpicker " >
+					<option value="" disabled selected hidden>Please Select</option>
 					<option value="2016">2016</option>
 					<option value="2015">2015</option>
 					<option value="2014">2014</option>
@@ -658,11 +836,24 @@
 					<option value="2010">2010</option>
 				</select>
 			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator Group</label>
+				<select id="dropm3" class="selectpicker " >
+					<option value="" disabled selected hidden>Please Select</option>
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator</label>
+				<select id="dropm4" class="selectpicker " >
+					<option value="" disabled selected hidden>Please Select</option>
+				</select>
+			</div>
+
 
 			<br>
 		</div>
 		<div class="w3-row">
-			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g1" onclick="window.open('map1.html?deid='+deid+'&peid='+peid+'&orgid='+orgid+'&orgname='+orgname)">Generate Maps</button></p></div>
+			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g1" onclick="validatemap()">Generate Maps</button></p></div>
 		</div>
 	</nav>
 </div>
@@ -674,25 +865,14 @@
 		<div class="w3-row-padding w3-padding-bottom">
 			<div class="w3-quarter">
 				<label for="Orgunit">Select Level</label>
-				<select id="dropc1" class="selectpicker " >
 
+				<select id="dropc1" class="selectpicker " >
+					<option value="" disabled selected hidden>Please Select</option>
 				</select>
 			</div>
 			<div class="w3-quarter">
 				<label for="Orgunit">Organisation unit</label>
 				<select id="dropc2"class="selectpicker " multiple>
-
-				</select>
-			</div>
-			<div class="w3-quarter">
-				<label for="Orgunit">Indicator Group</label>
-				<select id="dropc3" class="selectpicker " >
-
-				</select>
-			</div>
-			<div class="w3-quarter">
-				<label for="Orgunit">Indicator</label>
-				<select id="dropc4" class="selectpicker " multiple>
 
 				</select>
 			</div>
@@ -708,11 +888,24 @@
 					<option value="2010">2010</option>
 				</select>
 			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator Group</label>
+				<select id="dropc3" class="selectpicker " >
+					<option value="" disabled selected hidden>Please Select</option>
+				</select>
+			</div>
+			<div class="w3-quarter">
+				<label for="Orgunit">Indicator</label>
+				<select id="dropc4" class="selectpicker " multiple>
+
+				</select>
+			</div>
+
 
 			<br>
 		</div>
 		<div class="w3-row">
-			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g2"  onclick="window.open('highcharttab.html?cdegroupid='+cdegroupid+'&cpeid='+cpeid+'&cdegroupname='+cdegroupname+'&cdeid='+cdeid+'&corgid='+corgid+'&corgname='+corgname)">Generate Charts</button></p></div>
+			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g1"  onclick="validatechart()">Generate Charts</button></p></div>
 		</div>
 	</nav>
 </div>
@@ -720,7 +913,7 @@
 <div id="footer">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-3"><img src="./img/logo2.png" width="200px"></div>
+			<div class="col-sm-3"><img src="./img/logo2.png" width="250px"></div>
 			<div class="col-sm-3"><ul id="ul1" style="list-style-type:none"><li>Global Health Observatory</li><li><a>Contact us</a></li></ul></div>
 			<div class="col-sm-3">
 				<ul id="ul2" style="list-style-type:none">
