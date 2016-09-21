@@ -28,11 +28,11 @@
     <!-- Login and initialize maps -->
 
     <script>
-        var base = '../../';
+      var base = '../../';
 
         Ext.onReady( function() {
             Ext.Ajax.request({
-                url: base + "dhis-web-commons-security/login.action?authOnly=true",
+                url: "dhis-web-commons-security/login.action?authOnly=true",
                 method: 'POST',
                 params: { j_username: "publicdashboard", j_password: "D@SHbo@rd20!6" },
                 success: setLinks
@@ -123,6 +123,7 @@
                         "hidden": false
                     }
                 ],
+
                 "url": "../..",
                 "el": "map"
             });

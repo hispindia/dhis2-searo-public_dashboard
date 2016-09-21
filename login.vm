@@ -1572,20 +1572,63 @@
 
 				});
 			});
-			$("#drop2").change(function () {
-				if(drop2.value=="all")
+
+
+	/* Select All property for the Drop down*/
+
+	$('#drop2').selectpicker().change(function(){toggleSelectAll($(this));}).trigger('change');
+
+	function toggleSelectAll(control) {
+		 var allOptionIsSelected = (control.val() || []).indexOf('all') > -1;
+		 function valuesOf(elements) {
+			 return $.map(elements, function(element) {
+				 return element.value;
+			 });
+		 }
+
+		 if (control.data('allOptionIsSelected') != allOptionIsSelected) {
+			 // User clicked 'All' option
+			 if (allOptionIsSelected) {
+				 // Can't use .selectpicker('selectAll') because multiple "change" events will be triggered
+				 control.selectpicker('val', valuesOf(control.find('option')));
+			 } else {
+				 control.selectpicker('val', []);
+			 }
+		 } else {
+			 // User clicked other option
+			 if (allOptionIsSelected && control.val().length != control.find('option').length) {
+				 // All options were selected, user deselected one option
+				 // => unselect 'All' option
+				 control.selectpicker('val', valuesOf(control.find('option:selected[value!=all]')));
+				 allOptionIsSelected = false;
+			 } else if (!allOptionIsSelected && control.val().length == control.find('option').length - 1) {
+				 // Not all options were selected, user selected all options except 'All' option
+				 // => select 'All' option too
+				 control.selectpicker('val', valuesOf(control.find('option')));
+				 allOptionIsSelected = true;
+			 }
+		 }
+		 control.data('allOptionIsSelected', allOptionIsSelected);
+	 }
+
+
+	$("#drop2").change(function () {
+
+				/*if(drop2.value=="all")
 				{
 
-					$('#drop2').selectpicker('selectAll');
-
-				}
-
+					if(drop2.value=='all')
+					{
+						$('#drop2').selectpicker('selectAll');
+					}
+				}*/
 				var selected = $("#drop2 option:selected");
 				orgname="";
 				orgid = "";
 				selected.each(function () {
 					orgname=$(this).val();
 					orgid += ";" + $(this).val();
+
 
 				});
 
@@ -1620,13 +1663,20 @@
 //			});
 			morgid="eGtybcKtVeq";
 
+
+			/* Select All property for the Drop down of charts*/
+
+	$('#dropc2').selectpicker().change(function(){toggleSelectAll($(this));}).trigger('change');
+
+
+
 			$("#dropc2").change(function () {
-				if(dropc2.value=="all")
+				/*if(dropc2.value=="all")
 				{
 
 					$('#dropc2').selectpicker('selectAll');
 
-				}
+				}*/
 				var selected = $("#dropc2 option:selected");
 				corgname="";
 				corgid = "";
@@ -1646,31 +1696,7 @@
 		});	});
 
 
-	//
-	//	function removeUnselectedOptions() {
-	//
-	//		$.each($("#drop4 option:selected"), function(){
-	//			countries.push($(this).val());
-	//			//countries.push(document.getElementById("drop4").selectedIndex);
-	//
-	//		});
-	//		alert(countries);
-	//		var element = document.getElementById("drop4");
-	//		element[i].remove()
-	//		var selected = element.val;
-	//		console.log(selected)
-	//		for (var i = element.length-1; i >= 0; i--) {
-	//
-	//			for (var j = 0; j < countries.length; j++) {
-	//				if (i != countries[j])
-	//					element[i].remove()
-	//
-	//			}
-	//
-	//			//console.log(countries);
-	//
-	//		}
-	//	}
+
 
 
 	function validatetable() {
@@ -1820,7 +1846,7 @@
 		else ( isValidated === "true")
 		{
 			window.open('highcharttab.html?cdegroupid='+cdegroupid+'&cpeid='+cpeid+'&cdegroupname='+cdegroupname+'&cdeid='+cdeid+'&corgid='+corgid+'&corgname='+corgname);
-
+			window.open('BarChart.html?cdegroupid='+cdegroupid+'&cpeid='+cpeid+'&cdegroupname='+cdegroupname+'&cdeid='+cdeid+'&corgid='+corgid+'&corgname='+corgname);
 		}
 
 	}
@@ -1886,7 +1912,7 @@
 
 		else ( isValidated === "true")
 		{
-			window.open('map1.html?mdeid='+mdeid+'&mpeid='+mpeid+'&morgid='+";eGtybcKtVeq"+'&morgname='+"Searo Region");
+			window.open('map1.html?mdeid='+mdeid+'&mpeid='+mpeid+'&morgid='+";sCU6B2ZOTYr;GY9dLYENyOU;AFkkfLBwuHc;sQeCnfgIko4;n5AQFbBKbVA;vMK14bK6V4P;rV0O78pYETp;uu7IpfKO1IA;jqvWOjpUOLE;BYyRgdEoYDd;rY3Q1VZtZpg"+'&morgname='+"Searo Region");
 
 		}
 
