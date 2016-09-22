@@ -1237,6 +1237,7 @@
 				mpeid = "";
 				selected.each(function () {
 					mpeid += ";" + $(this).val();
+
 				});
 			});$("#dropc5").change(function () {
 
@@ -1854,61 +1855,20 @@
 	function validatemap() {
 		var isValidated = "true";
 
-
-		//orgUnit Related
-//		var level = document.getElementById('dropm1');
-//		var levelid = level.options[level.selectedIndex].value;
-		//alert( tempOrgUnitUid );
-
-		// indicator related
-//		var orgf = document.getElementById('dropm2');
-//		var orgfid = orgf.options[orgf.selectedIndex].value;
-		//alert( tempIndicatorUid );
-
-		// month related
-		var period = document.getElementById('dropm3');
+		var period = document.getElementById('dropm5');
 		var periodid = period.options[period.selectedIndex].value;
-		//alert( tempMonthUid );
 
-		// year related
-		var indigroup = document.getElementById('dropm4');
+		var indigroup = document.getElementById('dropm3');
 		var indigid = indigroup.options[indigroup.selectedIndex].value;
-		//alert( tempYearUid );
 
-		// year related
-		var indi = document.getElementById('dropm5');
+		var indi = document.getElementById('dropm4');
 		var indiid = indi.options[indi.selectedIndex].value;
-		//alert( tempYearUid );
-
-
-//		if (levelid == "base" || levelid == undefined || levelid =="") {
-//			alert("Please select Level");
-//			isValidated = "false";
-//			return;
-//		}
-
-//		else if (orgfid == "" || orgfid == undefined) {
-//			alert("Please select Organisation unit");
-//			isValidated = "false";
-//			return;
-//		}
-
-		if (periodid="" || periodid == "Please Select" || periodid == undefined) {
-			alert("Please select Period");
+		if (periodid=="" || periodid == "Please Select" || periodid == undefined|| indigid=="" || indigid == "Please Select" || indigid == undefined|| indiid==""|| indiid == "Select Year" || indiid == undefined) {
+			alert("Please select from dropdown below");
 			isValidated = "false";
 			return;
 		}
 
-		else if (indigid="" || indigid == "Please Select" || indigid == undefined) {
-			alert("Please select Indicator Group");
-			isValidated = "false";
-			return;
-		}
-		else if (indi=""|| indi == "Select Year" || indi == undefined) {
-			alert("Please select Indicator");
-			isValidated = "false";
-			return;
-		}
 
 		else ( isValidated === "true")
 		{
@@ -1917,19 +1877,7 @@
 		}
 
 	}
-	//	$(document).ready(function() {
-	//		$('#btnSort').click(function(e) {
-	//
-	//			$("#drop4").html($('#drop4.html option').sort(function(x, y) {
-	//
-	//				console.log(drop4.html);
-	//				return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
-	//				console.log( $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1);
-	//			}));
-	//			$("#drop4").get(0).selectedIndex = 0;
-	//			e.preventDefault();
-	//		});
-	//		});
+
 
 
 </script>
@@ -2000,6 +1948,7 @@
 			<div class="w3-col w3-container" style="width:20%">
 				<label for="Orgunit" >Period</label>
 				<select id="dropm5" style="margin-left: 60%" class="selectpicker " >
+				<option value="" disabled selected hidden>Please Select</option>
 					<!--<option value="" disabled selected hidden>Please Select</option>-->
 					<!--<option value="2016">2016</option>-->
 					<!--<option value="2015">2015</option>-->
