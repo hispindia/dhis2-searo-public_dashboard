@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script   src="https://code.jquery.com/jquery-3.0.0.min.js"    crossorigin="true"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <link rel="stylesheet" href="//dhis2-cdn.org/v221/ext/resources/css/ext-plugin-gray.css" />
     <script src="//dhis2-cdn.org/v221/ext/ext-all.js"></script>
@@ -139,7 +140,7 @@
                 });
             }
 
-            Highcharts.theme = {
+            HighchartsHighcharts.theme = {
                 colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
                 chart: {
                     backgroundColor: {
@@ -255,18 +256,29 @@
 
             function createBarCharts1(view, subtitleStr, xAxisCategoriesArr, dataSeriesArrO) {
                 $("#" + view).highcharts({
-                    chart: {
-                        type: 'column'
+                   chart: {
+						  polar: true
                     },
                     title: {
                         text: "Period:"+cpeid
                     },
+					   pane: {
+						startAngle: 0,
+							endAngle: 360
+						},
+					 tooltip: {
+                        //headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                      //  footerFormat: '</table>',
+                       // shared: true,
+                       // useHTML: true
+                    },
                     subtitle: {
                         text: xAxisCategoriesArr
                     },
-                    xAxis: {
-                        categories: xAxisCategoriesArr,
-                        crosshair: true
+                   xAxis: {
+                        categories: xAxisCategoriesArr
                     },
                     yAxis: {
                         min: 0,
@@ -274,17 +286,15 @@
                             text: ''
                         }
                     },
-
-                    tooltip: {
-                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-                        footerFormat: '</table>',
-                        shared: true,
-                        useHTML: true
-                    },
+					legend: {
+								layout: 'vertical',
+								align: 'right',
+								verticalAlign: 'middle',
+								borderWidth: 0
+							},
+                   
                     plotOptions: {
-                        column: {
+                        pie: {
                             pointPadding: 0.2,
                             borderWidth: 0,
                             dataLabels: {
@@ -910,11 +920,12 @@ li a:hover {
 
 <div>
 <ul>
-  <li><a class="active" style="color:blue;" href="#">Bar</a></li>
-  <li><a >Line</a></li>
+  <li><a  href="#">Bar</a></li>
+  <li><a  class="active	" style="color:blue;">Line</a></li>
+  
 </ul>
 
-<div id="container" width="100%" height="100%" style="margin-top:4%">
+<div id="container" width="100%" height="600px" style="margin:0 auto">
     <div align="centre" id="chart1" ></div>
 </div>
 <div id=""></div>

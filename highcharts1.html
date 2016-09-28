@@ -10,8 +10,11 @@
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <link rel="stylesheet" href="//dhis2-cdn.org/v221/ext/resources/css/ext-plugin-gray.css" />
     <script src="//dhis2-cdn.org/v221/ext/ext-all.js"></script>
-
-<body>
+<!--MDL CDN--->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.blue_grey-green.min.css" />
+	<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+<body style="background:#D3D3D3;">
 
 <script type="text/javascript">
 
@@ -194,7 +197,7 @@
                 });
             }
             Highcharts.theme = {
-                colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+               // colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
                 chart: {
                     backgroundColor: {
                         linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
@@ -222,7 +225,7 @@
                 },
                 tooltip: {
                     borderWidth: 0,
-                    backgroundColor: 'rgba(219,219,216,0.8)',
+                  //  backgroundColor: 'rgba(219,219,216,0.8)',
                     shadow: false
                 },
                 legend: {
@@ -299,7 +302,7 @@
 
 
                 // General
-                background2: '#F0F0EA'
+              //   	  background2: '#F0F0EA'
 
             };
 
@@ -1115,30 +1118,71 @@ li a {
 li a:hover {
     background-color: #111;
 }
-
+.demo-card-wide.mdl-card {
+  width: 100%;
+  color:white;
+  background:#4682B4;
+}
+.demo-card-wide > .mdl-card__title {
+  color:#4682B4;
+  height: 176px;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #4682B4;
+}
 </style>
+<div class="mdl-layout">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Charts</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+        <a class="mdl-navigation__link" href="">Bar Chart</a>
+        <a class="mdl-navigation__link" href="">Column Chart</a>
+        <a class="mdl-navigation__link" href="">Polar Chart</a>
+        <a class="mdl-navigation__link" href="">Line Chart</a>
+      </nav>
+    </div>
+  </header>
+ </div>
+ 
+ </br>
+ 
 
-<div>
-<ul>
-  <li><a class="active" style="color:blue;" href="#">Bar</a></li>
-  <li><a >Line</a></li>
-</ul>
 
+
+<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+<h3  style="text-align:center;"> Bar Chart</h3>
 <div id="container" >
     <div align="centre"  style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto" id="chart1" ></div>
 </div>
+</div>
+</br>
+<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+<h3 style="text-align:center;">Column Chart</h3>
 <div id="container2" >
 	<div align="centre"  style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto" id="chart2" ></div>
 </div>
+</div>
+</br>
+<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+<h3  style="text-align:center;">Polar Chart</h3>
 <div id="container3" >
 	<div align="centre"  style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto" id="chart3" ></div>
 </div>
+</div>
+</br>
+<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+	<h3  style="text-align:center;">Line Chart</h3>	
 <div id="container4" >
 	<div align="centre"  style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto" id="chart4" ></div>
 </div>
-
-
 </div>
+
+
 
 </body>
 </html>

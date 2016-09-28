@@ -21,14 +21,36 @@
             width: 900px;
             height: 500px;
         }
-
-
+	section.section0
+	{
+    margin-left: 170px;
+    border-left: 0px solid;
+    padding: 1em;
+    overflow: hidden;
+	}
+	header, footer
+	{
+    padding: 0.5em;
+    color: white;
+    background-color: #16629E;
+    clear: left;
+    text-align: center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:90%;
+	}
+    section.section1 {float:left; padding-right:2cm;}
+    section.section2{float:;}
+	.indent-1{
+	 border-left: 0px solid;
+    padding: 1em;
+    overflow: hidden;
+	}
     </style>
 
     <!-- Login and initialize maps -->
 
     <script>
-      var base = '../../';
+//       var base = '../../';
 
         Ext.onReady( function() {
             Ext.Ajax.request({
@@ -135,23 +157,30 @@
 <body>
 
 <header>
-
+   <h1>Maps</h1>
 </header>
 
-<section>
+<section class="section0">
 
     <div id="map" class="map wide"></div>
 
     <div id="canvas">
 
     </div>
-    <!--<input id="btn-Preview-Image" type="button" value="Preview"/>-->
-
-    <!--<a id="btn-Convert-Html2Image" href="#">Download</a>-->
-    <!--<a id="btnExport" >Export to Excel</a>-->
-    <!--<div id="previewImage">-->
-    <!--</div>-->
+    
 </section>
-
+</br>
+</br>
+<footer >
+<section class="indent-1">
+<section class="section1">
+<img src="./img/dis.png" width="300px" height="100px"></img>
+</section></br>
+<section class="section2">
+<p style="font-size:18px; text-align:left;">
+The Boundaries and names shown and the designations used on this map do not imply the expression of any opinion whatsoever on the part of World Health Organization concerning th leagal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries. Dotted lines on maps represent approximate border lines for which there may not yet be full agreement.</p>
+</section>
+</section>
+</footer>
 </body>
 </html>

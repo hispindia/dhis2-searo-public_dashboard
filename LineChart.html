@@ -139,7 +139,7 @@
                 });
             }
 
-            Highcharts.theme = {
+            HighchartsHighcharts.theme = {
                 colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
                 chart: {
                     backgroundColor: {
@@ -255,9 +255,9 @@
 
             function createBarCharts1(view, subtitleStr, xAxisCategoriesArr, dataSeriesArrO) {
                 $("#" + view).highcharts({
-                    chart: {
+                   /*chart: {
                         type: 'column'
-                    },
+                    },*/
                     title: {
                         text: "Period:"+cpeid
                     },
@@ -265,8 +265,7 @@
                         text: xAxisCategoriesArr
                     },
                     xAxis: {
-                        categories: xAxisCategoriesArr,
-                        crosshair: true
+                        categories: xAxisCategoriesArr
                     },
                     yAxis: {
                         min: 0,
@@ -274,7 +273,12 @@
                             text: ''
                         }
                     },
-
+					legend: {
+								layout: 'vertical',
+								align: 'right',
+								verticalAlign: 'middle',
+								borderWidth: 0
+							},
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -910,11 +914,11 @@ li a:hover {
 
 <div>
 <ul>
-  <li><a class="active" style="color:blue;" href="#">Bar</a></li>
-  <li><a >Line</a></li>
+  <li><a  href="#">Bar</a></li>
+  <li><a  class="active	" style="color:blue;">Line</a></li>
 </ul>
 
-<div id="container" width="100%" height="100%" style="margin-top:4%">
+<div id="container" width="100%" height="600px" style="margin:0 auto">
     <div align="centre" id="chart1" ></div>
 </div>
 <div id=""></div>

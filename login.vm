@@ -65,7 +65,7 @@
 	<!--<li><a href="#">Render Maps</a></li>-->
 	<!--<li><a href="#">View Dashboards</a></li>-->
 	<li><a href="#" class="show_hidee">Reports & Publications</a></li>
-	<li><a href="#" class="show_hidee" >About HIP</a></li>
+	<li><a href="#" class="show_hidee" >Help</a></li>
 	<li class="w3-right" ><a type="button" id="b1" class="button12" data-toggle="modal" data-target="#myModal"><b>DHIS2 Login</b></a></li>
 </ul>
 <!-- Modal -->
@@ -1145,7 +1145,7 @@
 
 
 			$('.selectpicker').selectpicker('refresh');
-			$.getJSON("../../api/sqlViews/UViRE2VIzMD/data.json", function (data) {
+			$.getJSON("../../api/sqlViews/n0UQzBeeixt/data.json", function (data) {
 
 				$.each(data.rows, function (index, item) {
 					var res = item[2].slice(0,4);
@@ -1976,13 +1976,10 @@
 			</div>
 			<div class="w3-col w3-container" style="width:20%">
 				<label for="Orgunit">Indicator</label>
-				<select id="drop4" class="selectpicker " multiple  data-width="200px" >
+				<select id="drop4" class="selectpicker " multiple  >
 					<option value="all">ALL </option>
 				</select>
 			</div>
-
-
-			<br>
 		</div>
 		<div class="w3-row-padding">
 			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g1" onclick="validatetable();">Generate Tables</button></p></div>
@@ -2022,19 +2019,16 @@
 			</div>
 			<div class="w3-col w3-container" style="width:20%">
 				<label for="Orgunit">Indicator Group</label>
-				<select id="dropm3" class="selectpicker " >
+				<select id="dropm3" class="selectpicker" >
 					<option value="" disabled selected hidden>Please Select</option>
 				</select>
 			</div>
 			<div class="w3-col w3-container" style="width:20%">
 				<label for="Orgunit">Indicator</label>
-				<select id="dropm4" class="selectpicker " >
+				<select id="dropm4" class="selectpicker" >
 					<option value="" disabled selected hidden>Please Select</option>
 				</select>
 			</div>
-
-
-			<br>
 		</div>
 		<div class="w3-row-padding">
 			<div class="w3-col" style="width:100%"><p align="center"><button class="w3-btn" id="g1" onclick="validatemap()">Generate Maps</button></p></div>
@@ -2081,7 +2075,6 @@
 			<div class="w3-col w3-container" style="width:20%">
 				<label for="Orgunit">Indicator</label>
 				<select id="dropc4" class="selectpicker " multiple>
-
 				</select>
 			</div>
 
