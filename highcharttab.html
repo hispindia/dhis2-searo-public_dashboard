@@ -119,10 +119,16 @@
 
             // apiChart1 = "../../api/analytics.json?dimension=dx:BqfDBU5j6TW;dhSa9E0X3WG;lrcmgT0Z9lX;mpRsGbc8hLd;VZltdU6ilDT;pR2CUVPNH4Z;r5OEqwXulPk&dimension=ou:sCU6B2ZOTYr;GY9dLYENyOU;AFkkfLBwuHc;sQeCnfgIko4;n5AQFbBKbVA;vMK14bK6V4P;rV0O78pYETp;uu7IpfKO1IA;jqvWOjpUOLE;BYyRgdEoYDd;rY3Q1VZtZpg&filter=pe:LAST_5_YEARS&displayProperty=NAME&outputIdScheme=CODE";
             apiChart1 = "../../api/analytics.json?dimension=dx:"+cdeid+"&dimension=ou:"+corgid+"&filter=pe:"+cpeid+"&displayProperty=NAME&outputIdScheme=CODE";
-
+            apiChart11 = "../../api/analytics.json?dimension=dx:"+cdeid+"&dimension=pe:"+cpeid+"&filter=ou:"+corgid;
 
             createChart1({
                 chartId: "chart1",
+                //  title: titleDe,
+                subtitle: "J"
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+            createChart11({
+                chartId: "chart11",
                 //  title: titleDe,
                 subtitle: "J"
             }, tempOrgUnitUid, tempMonthUid, tempYearUid);
@@ -136,6 +142,16 @@
                     var chartData = preparingDataforChart(json, count, "dx");
 
                     createBarCharts1(chartInfo.chartId, chartInfo.subtitle, chartData.xaxis, chartData.series);
+                });
+            }
+
+            function createChart11(chartInfo, tempOrgUnitUid, tempMonthUid, tempYearUid) {
+                // var count = tempMonthUid;
+                $.getJSON(apiChart11, function (jsonRes) {
+                    var json = standardlizeData_11(jsonRes, "pe");
+                    var chartData = preparingDataforChart1(json, "dx");
+
+                    createBarCharts11(chartInfo.chartId, chartInfo.subtitle, chartData.xaxis, chartData.series);
                 });
             }
 
@@ -299,10 +315,56 @@
 
                     series: dataSeriesArrO
                 });
-				}
+            }            function createBarCharts11(view, subtitleStr, xAxisCategoriesArr, dataSeriesArrO) {
+                $("#" + view).highcharts({
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: "Country:"+corgname
+                    },
+                    subtitle: {
+                        text: xAxisCategoriesArr
+                    },
+                    xAxis: {
+                        categories: xAxisCategoriesArr,
+                        crosshair: true
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: ''
+                        }
+                    },
 
-				
-				
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: true,
+                                style: {
+                                    fontWeight: 'bold',
+                                    fontSize: "14px"
+                                }
+                            }
+                        }
+                    },
+
+                    series: dataSeriesArrO
+                });
+            }
+
+
+
             function standardlizeData(jsonRes) {
                 var json = jsonRes;
                 /*  var datarows = json.rows;
@@ -372,6 +434,45 @@
                 json.metaData[secondKey] = facilityArr;
                 return json;
             }
+            function standardlizeData_11(jsonRes,
+                                         secondKey) {
+
+
+                var json = jsonRes;
+                var datarows = json.rows
+                        ;
+                var
+                        peArr = json.metaData.
+                                pe;
+                var peArrNames = json.metaData.
+                        names;
+                var
+                        facilityArr =
+                                json.metaData[secondKey]
+                        ;
+                var dataResult = [];
+
+                for (var i = 0; i < peArr.length; i++) {
+                    var pe = peArr[i];
+                    for (var j = 0; j < facilityArr.length; j++) {
+                        var fa = facilityArr[j];
+                        var search = false;
+                        for (var k = 0; k < datarows.length; k++) {
+                            if (datarows[k][1] == pe) {
+                                search = true;
+                                break;
+                            }
+                        }
+                        if (!search) {
+                            datarows.push([fa, pe, "0"]);
+                        }
+                    }
+                }
+                json.rows = datarows;
+                json.metaData.pe = peArr;
+                json.metaData[secondKey] = facilityArr;
+                return json;
+            }
 
             function sortDataRowsbyPeArr(json) {
                 var datarows = json.rows;
@@ -407,6 +508,21 @@
 
                 }
                 return dataResult;
+            }    function sortDataRowsbyPeArr_11(json, secondKey) {
+                var datarows = json.rows;
+                var peArr = json.metaData.pe;
+                var facilityArr = json.metaData[secondKey];
+                var dataResult = [];
+                for (var i = 0; i < peArr.length; i++) {
+                    var minPe = peArr[i];
+                    for (var j = 0; j < datarows.length; j++) {
+                        if (datarows[j][1] == minPe) {
+                            dataResult.push(datarows[j]);
+                        }
+                    }
+
+                }
+                return dataResult;
             }
 
             //rearrange json to fit into charts- without facility
@@ -417,6 +533,39 @@
                 //var facilityArr = json.metaData["ou"];
                 var facilityArr = json.metaData["ou"];
                 var dataResult = sortDataRowsbyPeArr_1(json, secondKey);
+
+
+                var xAxisCategoriesArr = [];
+                for (var i = 0; i < peArr.length; i++) {
+                    xAxisCategoriesArr.push(json.metaData.names[peArr[i]])
+//                if (xAxisCategoriesArr.length >= count) break;
+                }
+                var dataSeriesArrO = [];
+
+                for (var i = 0; i < facilityArr.length; i++) {
+                    var name = json.metaData.names[facilityArr[i]];
+                    var data = [];
+                    for (var j = 0; j < dataResult.length; j++) {
+                        if (dataResult[j][1] == facilityArr[i]) {
+                            data.push(Number(dataResult[j][2]));
+                            //if (data.length >= count) break;
+                        }
+                    }
+                    var seriO = {
+                        name: name,
+                        data: data
+                    }
+                    dataSeriesArrO.push(seriO);
+                }
+
+                return {xaxis: xAxisCategoriesArr, series: dataSeriesArrO};
+            }
+            function preparingDataforChart1(json, secondKey) {
+
+                var peArr = json.metaData.dx;
+                //var facilityArr = json.metaData["ou"];
+                var facilityArr = json.metaData["pe"];
+                var dataResult = sortDataRowsbyPeArr_11(json, secondKey);
 
 
                 var xAxisCategoriesArr = [];
@@ -732,6 +881,10 @@
         display: table;
         width: 100%;
         background: #FFFFFF;
+    } #container1 {
+        display: table;
+        width: 100%;
+        background: #FFFFFF;
     }
 
     #container > div {
@@ -882,42 +1035,46 @@
     .right {
         right: 0;
     }
-	ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+    }
 
-li {
-    float: left;
-}
+    li {
+        float: left;
+    }
 
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
 
-li a:hover {
-    background-color: #111;
-}
+    li a:hover {
+        background-color: #111;
+    }
 
 </style>
 
 <div>
-<ul>
-  <li><a class="active" style="color:blue;" href="#">Bar</a></li>
-  <li><a >Line</a></li>
-</ul>
+    <ul>
+        <li><a class="active" style="color:blue;" href="#">Bar</a></li>
+        <li><a >Line</a></li>
+    </ul>
 
-<div id="container" width="100%" height="100%" style="margin-top:4%">
-    <div align="centre" id="chart1" ></div>
-</div>
-<div id=""></div>
+    <div id="container" width="50%" height="50%" style="margin-top:4%">
+        <div align="left" id="chart1" ></div>
+
+    </div>   <div id="container1" width="50%" height="50%" style="margin-top:4%">
+        <div align="left" id="chart11" ></div>
+
+    </div>
+    <div id=""></div>
 </div>
 </body>
 </html>
