@@ -1145,7 +1145,7 @@
 
 
 			$('.selectpicker').selectpicker('refresh');
-			$.getJSON("../../api/sqlViews/n0UQzBeeixt/data.json", function (data) {
+			$.getJSON("../../api/sqlViews/Ymdy6crZIz6/data.json", function (data) {
 
 				$.each(data.rows, function (index, item) {
 					var res = item[2].slice(0,4);
@@ -1864,82 +1864,40 @@
 	function validatemap() {
 		var isValidated = "true";
 
+    		var period = document.getElementById('dropm5');
+    		var periodid = period.options[period.selectedIndex].value;
 
-		//orgUnit Related
-//		var level = document.getElementById('dropm1');
-//		var levelid = level.options[level.selectedIndex].value;
-		//alert( tempOrgUnitUid );
+    		var indigroup = document.getElementById('dropm4');
+    		var indigid = indigroup.options[indigroup.selectedIndex].value;
 
-		// indicator related
-//		var orgf = document.getElementById('dropm2');
-//		var orgfid = orgf.options[orgf.selectedIndex].value;
-		//alert( tempIndicatorUid );
+    		var indi = document.getElementById('dropm3');
+    		var indiid = indi.options[indi.selectedIndex].value;
 
-		// month related
-		var period = document.getElementById('dropm3');
-		var periodid = period.options[period.selectedIndex].value;
-		//alert( tempMonthUid );
+    		if (periodid==""|| periodid == "Please Select" || periodid == undefined|| periodid == "false") {
+    			alert("Please select Period");
+    			isValidated = "false";
+    			return;
+    		}
 
-		// year related
-		var indigroup = document.getElementById('dropm4');
-		var indigid = indigroup.options[indigroup.selectedIndex].value;
-		//alert( tempYearUid );
+    		else if (indigid=="" || indigid == "Please Select" || indigid == undefined) {
+    			alert("Please select Indicator Group");
+    			isValidated = "false";
+    			return;
+    		}
+    		else if (indiid==""|| indiid == "Select Year" || indiid == undefined) {
+    			alert("Please select Indicator");
+    			isValidated = "false";
+    			return;
+    		}
 
-		// year related
-		var indi = document.getElementById('dropm5');
-		var indiid = indi.options[indi.selectedIndex].value;
-		//alert( tempYearUid );
+    		else ( isValidated === "true")
+    		{
+    			window.open('map1.html?mdeid='+mdeid+'&mpeid='+mpeid+'&morgid='+";sCU6B2ZOTYr;GY9dLYENyOU;AFkkfLBwuHc;sQeCnfgIko4;n5AQFbBKbVA;vMK14bK6V4P;rV0O78pYETp;uu7IpfKO1IA;jqvWOjpUOLE;BYyRgdEoYDd;rY3Q1VZtZpg"+'&morgname='+"Searo Region");
 
+    		}
 
-//		if (levelid == "base" || levelid == undefined || levelid =="") {
-//			alert("Please select Level");
-//			isValidated = "false";
-//			return;
-//		}
-
-//		else if (orgfid == "" || orgfid == undefined) {
-//			alert("Please select Organisation unit");
-//			isValidated = "false";
-//			return;
-//		}
-
-		if (periodid="" || periodid == "Please Select" || periodid == undefined) {
-			alert("Please select Period");
-			isValidated = "false";
-			return;
-		}
-
-		else if (indigid="" || indigid == "Please Select" || indigid == undefined) {
-			alert("Please select Indicator Group");
-			isValidated = "false";
-			return;
-		}
-		else if (indi=""|| indi == "Select Year" || indi == undefined) {
-			alert("Please select Indicator");
-			isValidated = "false";
-			return;
-		}
-
-		else ( isValidated === "true")
-		{
-			window.open('map1.html?mdeid='+mdeid+'&mpeid='+mpeid+'&morgid='+";sCU6B2ZOTYr;GY9dLYENyOU;AFkkfLBwuHc;sQeCnfgIko4;n5AQFbBKbVA;vMK14bK6V4P;rV0O78pYETp;uu7IpfKO1IA;jqvWOjpUOLE;BYyRgdEoYDd;rY3Q1VZtZpg"+'&morgname='+"Searo Region");
-
-		}
 
 	}
-	//	$(document).ready(function() {
-	//		$('#btnSort').click(function(e) {
-	//
-	//			$("#drop4").html($('#drop4.html option').sort(function(x, y) {
-	//
-	//				console.log(drop4.html);
-	//				return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
-	//				console.log( $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1);
-	//			}));
-	//			$("#drop4").get(0).selectedIndex = 0;
-	//			e.preventDefault();
-	//		});
-	//		});
 
 
 </script>
@@ -2007,6 +1965,7 @@
 			<div class="w3-col w3-container" style="width:20%">
 				<label for="Orgunit" >Period</label>
 				<select id="dropm5" style="margin-left: 60%" class="selectpicker " >
+				  <option value="" disabled selected hidden>Please Select</option>
 					<!--<option value="" disabled selected hidden>Please Select</option>-->
 					<!--<option value="2016">2016</option>-->
 					<!--<option value="2015">2015</option>-->
